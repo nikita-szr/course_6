@@ -1,0 +1,26 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 7,
+    "fields": {
+        "name": "Переферия",
+        "description": "Аксессуары для ПК и ноутбуков"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 9,
+    "fields": {
+        "name": "Посуда",
+        "description": "Товары для кухни"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 10,
+    "fields": {
+        "name": "Аудиотехника",
+        "description": "Устройства для проигрывания звука"
+    }
+}
+]
