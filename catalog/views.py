@@ -1,8 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from catalog.models import Product, Category
 
 
 def home(request):
+
+    latest_products = Product.objects.order_by('created_at')[:5]
+
+    for product in latest_products:
+        print(f"Product: {product.name}, Price: {product.price}")
     return render(request, 'catalog/home.html')
 
 
