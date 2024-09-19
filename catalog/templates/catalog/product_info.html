@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информация о товаре</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
-</head>
-<body>
+{% extends 'catalog/base.html' %}
 
-<div class="container product-container mt-5">
-    <div class="row">
-        <div class="col-md-6">
-            <p>Наименование: {{ product.name }}<p>
-            <p>Описание: {{ product.description }}</p>
-            <p>Цена: {{ product.price }} руб.</p>
-            <p>Категория: {{ product.category.name }}</p>
-            <p>Создан: {{ product.created_at }}</p>
-            <p>Изменен: {{ product.updated_at }}</p>
-        </div>
-    </div>
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <p>Цена: {{ product.price }} руб.</p>
+    <p>Описание: {{ product.description }}</p>
+    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
 </div>
-<script src="/static/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
