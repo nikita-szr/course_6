@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from catalog.models import Product, Category
+from catalog.models import Product
 from .forms import ProductForm
 
 
@@ -18,9 +18,8 @@ def home(request):
 def contacts(request):
     if request.method == "POST":
         name = request.POST.get("name")
-        phone = request.POST.get("phone")
         message = request.POST.get("message")
-        return HttpResponse(f'Спасибо, {name}! Сообщение получено.')
+        return HttpResponse(f'Спасибо, {name}! Сообщение "{message}" получено.')
     return render(request, 'catalog/contacts.html')
 
 
