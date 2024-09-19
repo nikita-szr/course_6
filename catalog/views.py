@@ -4,12 +4,14 @@ from catalog.models import Product, Category
 
 
 def home(request):
-
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
     latest_products = Product.objects.order_by('created_at')[:5]
-
     for product in latest_products:
         print(f"Product: {product.name}, Price: {product.price}")
-    return render(request, 'catalog/home.html')
+    return render(request, 'catalog/home.html', context)
 
 
 def contacts(request):
