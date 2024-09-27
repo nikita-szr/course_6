@@ -1,0 +1,10 @@
+<h1>Блоговые записи</h1>
+<a href="{% url 'blog:blogpost_create' %}">Создать новую запись</a>
+<ul>
+    {% for post in posts %}
+    <li>
+        <a href="{% url 'blog:blogpost_detail' post.pk %}">{{ post.title }}</a>
+        (Просмотров: {{ post.view_count }})
+    </li>
+    {% endfor %}
+</ul>

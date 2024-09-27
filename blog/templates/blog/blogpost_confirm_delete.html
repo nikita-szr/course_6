@@ -1,0 +1,6 @@
+<h1>Удалить запись {{ object.title }}?</h1>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+    <a href="{% url 'blog:blogpost_detail' object.pk %}">Отмена</a>
+</form>
