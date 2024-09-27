@@ -6,10 +6,10 @@ from django.conf.urls.static import static
 app_name = 'catalog'
 
 urlpatterns = [
-    path('home/', views.home, name='home'),  # Главная
-    path('contacts/', views.contacts, name='contacts'),  # Контакты
-    path('product/<int:product_id>/', views.product_info, name='product_info'),  # Информация о товаре
-    path('add_product/', views.add_product, name='add_product')  # Добавление товара
+    path('home/', views.HomeView.as_view(), name='home'),
+    path('contacts/', views.ContactsView.as_view(), name='contacts'),
+    path('product/<int:pk>/', views.ProductInfoView.as_view(), name='product_info'),
+    path('add_product/', views.AddProductView.as_view(), name='add_product'),
 ]
 
 if settings.DEBUG:
