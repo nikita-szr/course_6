@@ -23,6 +23,17 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
 
+    PUBLISH_STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    ]
+
+    publish_status = models.CharField(
+        max_length=10,
+        choices=PUBLISH_STATUS_CHOICES,
+        default='draft',
+    )
+
     def __str__(self):
         return self.name
 
@@ -30,3 +41,6 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name']
+        permissions = [
+            ('can_unpublish_product', 'Can unpublish product'),
+        ]

@@ -1,0 +1,12 @@
+<h2>Отменить публикацию продукта: {{ product.name }}?</h2>
+
+{% if user.has_perm('catalog.can_unpublish_product') %}
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Отменить публикацию</button>
+    </form>
+    <a href="{% url 'product_list' %}">Отмена</a>
+{% else %}
+    <p>У вас нет прав для отмены публикации этого продукта.</p>
+    <a href="{% url 'product_list' %}">Назад к списку продуктов</a>
+{% endif %}

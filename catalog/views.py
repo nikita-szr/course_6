@@ -1,9 +1,10 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from catalog.models import Product
 from .forms import ProductForm
-from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin  # Добавляем миксин
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import redirect, get_object_or_404
 
 
 class HomeView(ListView):
@@ -61,3 +62,27 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'product_confirm_delete.html'
     success_url = reverse_lazy('catalog:home')
     login_url = 'users:login'
+
+    def delete(self, request, *args, **kwargs):
+        if not request.user.has_perm('catalog.delete_product'):
+            return HttpResponseForbidden("У вас нет прав для удаления этого продукта.")
+
+        return super().delete(request, *args, **kwargs)
+
+
+class ProductUnpublishView(PermissionRequiredMixin, View):
+    permission_required = 'catalog.can_unpublish_product'
+    template_name = 'catalog/product_unpublish_confirm.html'
+
+    def get(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+        return self.render_to_response({'product': product})
+
+    def post(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+        if not request.user.has_perm('catalog.can_unpublish_product'):
+            return HttpResponseForbidden("У вас нет прав для отмены публикации этого продукта.")
+
+        product.is_published = False
+        product.save()
+        return redirect('product_list')
