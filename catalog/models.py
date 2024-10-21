@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -22,6 +23,7 @@ class Product(models.Model):
     price = models.IntegerField(help_text='Введите цену продукта', verbose_name='Цена за покупку')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     PUBLISH_STATUS_CHOICES = [
         ('draft', 'Draft'),

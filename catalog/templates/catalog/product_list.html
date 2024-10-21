@@ -1,13 +1,16 @@
-<h2>Список продуктов</h2>
-<a href="{% url 'product_create' %}">Создать новый продукт</a>
+<h1>Список продуктов</h1>
 <ul>
     {% for product in products %}
         <li>
-            <a href="{% url 'product_update' product.pk %}">{{ product.name }}</a>
-            <form action="{% url 'product_delete' product.pk %}" method="POST" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Удалить</button>
-            </form>
+            <h3>{{ product.name }}</h3>
+            <p>Владелец: {{ product.owner.username }}</p>
+            {% if user.is_authenticated %}
+                {% if product.owner == user or user.has_perm('catalog.delete_product') %}
+                    <a href="{% url 'product_update' product.id %}">Редактировать</a>
+                    <a href="{% url 'product_delete' product.id %}">Удалить</a>
+                {% endif %}
+            {% endif %}
         </li>
     {% endfor %}
 </ul>
+<a href="{% url 'product_create' %}">Создать новый продукт</a>
