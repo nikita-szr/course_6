@@ -5,6 +5,8 @@ from django.views.generic import ListView, DetailView, CreateView, TemplateView,
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 
 class HomeView(ListView):
@@ -29,6 +31,7 @@ class ContactsView(TemplateView):
         return HttpResponse(f'Спасибо, {name}! Сообщение "{message}" получено.')
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductInfoView(DetailView):
     model = Product
     template_name = 'catalog/product_info.html'
