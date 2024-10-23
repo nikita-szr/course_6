@@ -7,6 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from .services import ProductService
+from .models import Category
 
 
 class HomeView(ListView):
@@ -103,3 +105,18 @@ class ProductUnpublishView(PermissionRequiredMixin, View):
         product.is_published = False
         product.save()
         return redirect('product_list')
+
+
+class ProductCategoryView(ListView):
+    model = Product
+    template_name = 'catalog/product_category_list.html'
+    context_object_name = 'products'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        category_id = self.kwargs['category_id']
+
+        context['products'] = ProductService.get_products_by_category(category_id)
+        context['category_name'] = ProductService.get_category_name(category_id)
+        return context
